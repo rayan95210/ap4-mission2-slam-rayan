@@ -8,16 +8,23 @@ try {
     die("Erreur de connexion : " . $e->getMessage());
 }
 
-$sql = "SELECT id, nom, annee, details, type, parent FROM materiel";
+$sql = "
+    SELECT m.id, m.nom, m.annee, m.details, m.type,
+           p.nom AS parent_nom
+    FROM materiel m
+    LEFT JOIN materiel p ON m.parent = p.id
+    ORDER BY m.id
+";
+
 $stmt = $pdo->query($sql);
 $materiels = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
-<html lang=\"fr\">
+<html lang="fr">
 <head>
-    <meta charset=\"UTF-8\">
-    <title>Liste du matériel</title>
+    <meta charset="UTF-8">
+    <title>Inventaire du matériel</title>
     <style>
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ccc; padding: 8px; }
@@ -45,7 +52,7 @@ $materiels = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <td><?= htmlspecialchars($m['annee']) ?></td>
             <td><?= htmlspecialchars($m['details']) ?></td>
             <td><?= htmlspecialchars($m['type']) ?></td>
-            <td><?= htmlspecialchars($m['parent']) ?></td>
+            <td><?= htmlspecialchars($m['parent_nom'] ?? '—') ?></td>
         </tr>
     <?php endforeach; ?>
 
@@ -53,4 +60,3 @@ $materiels = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 </body>
 </html>
-
