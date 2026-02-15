@@ -4,7 +4,6 @@ CREATE DATABASE IF NOT EXISTS ap4_materiel
 
 USE ap4_materiel;
 
--- TABLE MATERIEL
 DROP TABLE IF EXISTS materiel;
 
 CREATE TABLE materiel (
@@ -17,7 +16,6 @@ CREATE TABLE materiel (
     FOREIGN KEY (parent) REFERENCES materiel(id)
 );
 
--- INSERT DES DONNÉES
 INSERT INTO materiel (id, nom, annee, details, type, parent) VALUES
 (1, 'PC 1 – Unité centrale', 2016, NULL, 'PC', NULL),
 (2, 'PC 2 – Unité centrale', 2017, NULL, 'PC', NULL),
